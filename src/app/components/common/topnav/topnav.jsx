@@ -4,7 +4,8 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import Navigation from '../navigation/navigation';
-import { setAlphaSorting } from '../../../actions/actions';
+import { setAuthenticated } from '../../../actions/actions';
+import { auth, login, logout } from '../../../helpers/auth';
 
 import Icon from '../lib/icon/icon';
 import Logo from '../../../../../static/logo.svg';
@@ -42,20 +43,14 @@ class TopNav extends Component {
 	componentDidMount() {
 		history.listen( location =>  {
 			let page = location.pathname.substring(1);
-
-			if (page === 'favourites' || page === 'inbox') {
-				$('.js-card-controls').show();
-			} else {
-				$('.js-card-controls').hide();
-			}
 		});	
 	}
 	
 	componentDidUpdate() {
-		if (this.props.isDesktop) {
+		if (this.props.isDesktop === true) {
 			$('#mode').prop('checked', false);
 			$('.js-page').removeClass('list-view');
-		} else {
+		} else if (this.props.isDesktop === false) {
 			$('#mode').prop('checked', true);
 			$('.js-page').addClass('list-view');
 		}
@@ -72,6 +67,7 @@ class TopNav extends Component {
 			$('.js-overlay').show().animateCss('fadeIn');
 			$('.js-sidenav').addClass('opened').removeClass('closed');
 			$('.js-nav-icon').addClass('opened');
+			$('.js-dropdown-panel').removeClass('open');
 			this.setState({searching: false, navigating: true});
 		}
 	}
@@ -100,6 +96,7 @@ class TopNav extends Component {
 			$('.js-nav-icon').removeClass('opened');
 			$('.js-overlay').show().animateCss('fadeIn');
 			$('.search-input').focus();
+			$('.js-dropdown-panel').removeClass('open');
 			this.setState({searching: true, navigating: false});
 		}
 	}
@@ -131,6 +128,16 @@ class TopNav extends Component {
 		}
 	}
 	
+	handleSignup = (e) => {
+		e.preventDefault()
+    	auth(this.email.value, this.pw.value)
+	}
+	
+	handleSignin = (e) => {
+		e.preventDefault()
+    	console.log(login(this.email.value, this.pw.value));
+	}
+	
 	render() {			
 		let noSortingStyle = { display: (this.props.alphaSorting === '') ? 'inline-block' : 'none' };
 		let sortAscendingStyle = { display: (this.props.alphaSorting === 'ascending') ? 'inline-block' : 'none' };
@@ -139,7 +146,7 @@ class TopNav extends Component {
 		return (
             <section className="top-nav js-top-nav">
 				<div className="top-nav-bar">
-					<div className="top-nav-item nav-icon js-nav-icon" onClick={() => {this.toggleNav(event) }}>
+					<div className="top-nav-item nav-icon js-nav-icon" onClick={() => {this.toggleNav() }}>
 						<span></span>
 						<span></span>
 						<span></span>
@@ -149,40 +156,38 @@ class TopNav extends Component {
 					<Link to="/inbox" className="top-nav-item" onClick={() => {this.closeNav(); this.closeSearch() }}><Icon glyph={Mail} className="icon mail" /></Link>
 					<button className="top-nav-item" onClick={() => {this.toggleSearch() }}>{this.state.searching ? <Icon glyph={Close} className="icon close-search" /> : <Icon glyph={Search} className="icon search" />}</button>
 					
-					<h1 className="logo">Hypatia</h1>
+					<Icon glyph={Logo} className="icon logo" />
 					
-					<div className="user-info">
-						<Icon glyph={Chat} className="icon chat" />
-						<Icon glyph={Avatar} className="icon avatar" />
-					</div>
-					
-					<div className="card-controls js-card-controls">
-						{/*<div className="top-nav-item sort-item from-sort">from<Icon glyph={SortPassive} className="icon sort-passive" /></div>*/}
-						<div className="top-nav-item sort-item alphabetical-sort js-alphabetical-sort" onClick={this.alphabeticSort.bind(this)}>AZ
-							<Icon glyph={SortPassive} className="icon sort-passive" style={noSortingStyle} />
-							<Icon glyph={SortActiveUp} className="icon sort-ascending" style={sortAscendingStyle} />
-							<Icon glyph={SortActiveDown} className="icon sort-descending" style={sortDescendingStyle} />
+					{(!this.props.authenticated) ? 
+						<div className="forms">
+							<form className="sign-up" onSubmit={this.handleSignup}>
+								<input type="text" className="form-control" ref={(email) => this.email = email} placeholder="Email" />
+								<input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+								<button type="submit" className="btn btn-primary">Sign up</button>
+							</form>
+							<form className="sign-in" onSubmit={this.handleSignin}>
+								<input type="text" className="form-control" ref={(email) => this.email = email} placeholder="Email" />
+								<input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+								<button type="submit" className="btn btn-primary">Sign in</button>
+							</form>
+						</div>:
+						<div className="login">
+							<div>Hello there!</div>
+							<button onClick={() => { logout(); this.props.setAuthenticated(false) }}>Sign out</button>
 						</div>
-						{/*<div className="top-nav-item sort-item date-sort">date<Icon glyph={SortActiveDown} className="icon sort-active-down" /></div>*/}
-						{/*<div className="top-nav-item sort-item read-sort">read<Icon glyph={SortActiveDown} className="icon sort-active-down" /></div>*/}
-						<span className="top-nav-item sort-item view-as">view as:</span>
-						<span className="toggle-switch">
-							<input type="checkbox" id="mode" name="mode" value="cards" onClick={(e) => {this.toggleView(e) }} />
-							<label className="radio" htmlFor="mode"></label>								
-						</span>
-					</div>
+					}
 				</div>
-				<Navigation {...this.props} toggleNav={this.toggleNav} openNav={this.openNav} closeNav={this.closeNav} toggleSearch={this.toggleSearch} openSearch={this.openSearch} closeSearch={this.closeSearch} searching={this.state.searching} navigating={this.state.navigating} toggleLogout={this.toggleLogout} />
+				<Navigation location={this.props.location} toggleNav={this.toggleNav} openNav={this.openNav} closeNav={this.closeNav} toggleSearch={this.toggleSearch} openSearch={this.openSearch} closeSearch={this.closeSearch} searching={this.state.searching} navigating={this.state.navigating} toggleLogout={this.toggleLogout} />
 				<div className="overlay js-overlay" onClick={() => {this.closeNav(); this.closeSearch() }}></div>
             </section>
 		)
 	}
 }
 
-const mapStateToProps = ({ mainReducer: { alphaSorting } }) => ({ alphaSorting });
+const mapStateToProps = ({ mainReducer: { authenticated } }) => ({ authenticated });
 
 const mapDispatchToProps = {
-	setAlphaSorting
+	setAuthenticated
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopNav);
