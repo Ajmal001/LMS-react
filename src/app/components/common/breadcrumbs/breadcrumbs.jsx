@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { setBreadcrumbs } from '../../../actions/actions';
 
 import Icon from '../lib/icon/icon';
-import Back from '../../../../../static/back.svg';
 
 class Breadcrumbs extends Component {
 	
@@ -24,6 +23,9 @@ class Breadcrumbs extends Component {
 			let newTrail = [];
 			if (location.pathname !== '/') {
 				newTrail = location.pathname.substring(1, location.pathname.lenght).split('/');
+				for (let i=0; i<newTrail.length; i++) {
+					newTrail[i] = newTrail[i].charAt(0).toUpperCase() + newTrail[i].slice(1);
+				}
 			}
 			else
 				newTrail.push('Home');
