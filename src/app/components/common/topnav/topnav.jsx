@@ -9,18 +9,18 @@ import { setUser, setPanel } from '../../../actions/actions';
 import { auth, login, logout } from '../../../helpers/firebase';
 
 import Icon from '../lib/icon/icon';
-import Logo from '../../../../../static/logo.svg';
-import Avatar from '../../../../../static/avatar.svg';
-import Trophy from '../../../../../static/trophy.svg';
-import Calendar from '../../../../../static/calendar.svg';
-import Info from '../../../../../static/info.svg';
-import Search from '../../../../../static/search.svg';
-import Close from '../../../../../static/x.svg';
-import SortPassive from '../../../../../static/sort-passive.svg';
-import SortActiveUp from '../../../../../static/sort-active-up.svg';
-import SortActiveDown from '../../../../../static/sort-active-down.svg';
-import Logout from '../../../../../static/logout.svg';
-import Chat from '../../../../../static/chat.svg';
+import Logo from '../../../../../static/svg/logo.svg';
+import Avatar from '../../../../../static/svg/avatar.svg';
+import Trophy from '../../../../../static/svg/trophy.svg';
+import Calendar from '../../../../../static/svg/calendar.svg';
+import Info from '../../../../../static/svg/info.svg';
+import Search from '../../../../../static/svg/search.svg';
+import Close from '../../../../../static/svg/x.svg';
+import SortPassive from '../../../../../static/svg/sort-passive.svg';
+import SortActiveUp from '../../../../../static/svg/sort-active-up.svg';
+import SortActiveDown from '../../../../../static/svg/sort-active-down.svg';
+import Logout from '../../../../../static/svg/logout.svg';
+import Chat from '../../../../../static/svg/chat.svg';
 
 class TopNav extends Component {
     
@@ -132,7 +132,8 @@ class TopNav extends Component {
 	
 	handleSignin = (e) => {
 		e.preventDefault();
-    	login(this.email.value, this.pw.value);
+		const email = String(this.email.value);
+    	login(email, this.pw.value);
 	}
 	
 	changePanel(panel) {
@@ -174,16 +175,16 @@ class TopNav extends Component {
 						<div className="user-controls">
 							<div className="user-controls-cta sign-up-cta" onClick={this.toggleForm}><span>Sign up</span>
 								<form className="user-form sign-up" onSubmit={this.handleSignup}>
-									<input type="text" className="form-control" ref={(emailSignup) => this.emailSignup = emailSignup} placeholder="Email" />
-									<input type="password" className="form-control" placeholder="Password" ref={(pwSignup) => this.pwSignup = pwSignup} />
-									<input type="password" className="form-control" placeholder="Repeat password" ref={(pw2) => this.pw2 = pw2} />
+									<input type="text" className="input-field" ref={(emailSignup) => this.emailSignup = emailSignup} placeholder="Email" />
+									<input type="password" className="input-field" placeholder="Password" ref={(pwSignup) => this.pwSignup = pwSignup} />
+									<input type="password" className="input-field" placeholder="Repeat password" ref={(pw2) => this.pw2 = pw2} />
 									<button type="submit" className="btn btn-primary">Sign up</button>
 								</form>
 							</div>
 							<div className="user-controls-cta sign-in-cta"><span>Sign in</span>
 								<form className="user-form sign-in" onSubmit={this.handleSignin}>
-									<input type="text" className="form-control" ref={(email) => this.email = email} placeholder="Email" />
-									<input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+									<input type="text" className="input-field" ref={(email) => this.email = email} placeholder="Email" />
+									<input type="password" className="input-field" placeholder="Password" ref={(pw) => this.pw = pw} />
 									<button type="submit" className="btn btn-primary">Sign in</button>
 								</form>
 							</div>
