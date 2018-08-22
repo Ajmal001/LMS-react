@@ -1,8 +1,8 @@
 Y=2018
 M=8
-D=22
+D=23
 i=15
-comment="Fixed bug with autocompelte in email input"
+comment=" Added placeholders for calendar, grades and help"
 
 export GIT_COMMITTER_DATE="$Y-$M-$D 10:$i:34"
 export GIT_AUTHOR_DATE="$Y-$M-$D 10:$i:34"
