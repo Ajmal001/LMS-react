@@ -143,20 +143,23 @@ class TopNav extends Component {
 			
 			const email = String(this.emailSignup.value);
 			
-			firebase.auth().createUserWithEmailAndPassword(email, this.pwSignup.value).then(function() {
-				this.saveUser();
+			firebase.auth().createUserWithEmailAndPassword(email, this.pwSignup.value).then(function(user) {
+				this.saveUser(user);
 			}.bind(this)).catch(function(error) {
 				$('.js-btn-signup').show();
 				$('.js-signup-loader').hide();
 				this.props.setNotification({message: String(error), type: 'error'});
 			}.bind(this));
 		}
+		else {
+			this.props.setNotification({message: PASSWORD_MATCH_ERROR, type: 'error'});
+		}
 	}
 	
-	saveUser() {
+	saveUser(user) {
 		return firebase.database().ref(`users/${user.uid}/info`).set({
       		uid: user.uid
-    	}).then(() => {
+    	}).then(function() {
 			user.sendEmailVerification();
 			$('.js-btn-signup').show();
 			$('.js-signup-loader').hide();
@@ -165,7 +168,11 @@ class TopNav extends Component {
 			});
 			this.props.setNotification({message: USER_CREATED, type: 'success'});
 			user
-		})
+		}.bind(this)).catch(function(error) {
+			$('.js-btn-signup').show();
+			$('.js-signup-loader').hide();
+			this.props.setNotification({message: String(error), type: 'error'});
+		}.bind(this))
 	}
 	
 	handleSignin = (e) => {
@@ -245,7 +252,7 @@ class TopNav extends Component {
 							<button onClick={() => {this.changePanel('chat') }}>{this.props.panel === 'chat' ? <Icon glyph={Close} className="icon close-chat" /> : <Icon glyph={Chat} className="icon chat" />}</button>
 							
 							<div className="user-controls-cta account-cta">
-								{(this.props.user) ? <Link to="/account">{(this.props.user.email) ? <img className="photo" src={`http://www.gravatar.com/avatar/${md5(this.props.user.email)}.jpg?s=20`} /> : <Icon glyph={Avatar} />} {this.props.user.displayName}</Link> : ''}
+								{(this.props.user) ? <Link to="/dashboard">{(this.props.user.email) ? <img className="photo" src={`https://www.gravatar.com/avatar/${md5(this.props.user.email)}.jpg?s=20`} /> : <Icon glyph={Avatar} />} {this.props.user.displayName}</Link> : ''}
 								<button onClick={() => { firebase.auth().signOut(); this.props.setUser(null);}}><Icon glyph={Logout} className="icon sign-out" /></button>
 							</div>
 						</div>

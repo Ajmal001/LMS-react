@@ -1,9 +1,8 @@
 Y=2018
 M=9
-D=1
+D=2
 i=15
-comment="Removed express server. We donΓÇÖt need it, as Firebase hosting already has one
- "
+comment=" Making progress with the Slack RTM API "
 
 export GIT_COMMITTER_DATE="$Y-$M-$D 10:$i:34"
 export GIT_AUTHOR_DATE="$Y-$M-$D 10:$i:34"
