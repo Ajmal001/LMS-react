@@ -1,8 +1,8 @@
 Y=2018
 M=9
-D=2
+D=3
 i=15
-comment=" Making progress with the Slack RTM API "
+comment="  Fixed license and local port "
 
 export GIT_COMMITTER_DATE="$Y-$M-$D 10:$i:34"
 export GIT_AUTHOR_DATE="$Y-$M-$D 10:$i:34"

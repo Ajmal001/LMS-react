@@ -101,7 +101,7 @@ class App extends Component {
 					<Notification />
 					<TopNav location={this.props.location} />
 					<div className={`dropdown-panel js-dropdown-panel ${panelClass}`}>
-						<Chat class={(this.props.panel === 'chat') ? 'open' : ''} location={this.props.location} />
+						<Chat class={(this.props.panel === 'chat') ? 'open' : ''} />
 						<Calendar class={(this.props.panel === 'calendar') ? 'open' : ''} />
 						<Grades class={(this.props.panel === 'grades') ? 'open' : ''} />
 						<Help class={(this.props.panel === 'help') ? 'open' : ''} />
