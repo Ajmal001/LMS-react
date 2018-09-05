@@ -1,8 +1,8 @@
 Y=2018
 M=9
-D=5
+D=6
 i=16
-comment="  Moved page authentication levels to router "
+comment="  working on admin page "
 
 export GIT_COMMITTER_DATE="$Y-$M-$D 10:$i:34"
 export GIT_AUTHOR_DATE="$Y-$M-$D 10:$i:34"
