@@ -1,28 +1,130 @@
 .admin {
 	
+	.blocks {
+		width: 100%;
+		
+		@include desktop() {
+			position: fixed;
+			width: 20%;
+		}
+	}
+	
+	.item-content {
+		width: 100%;
+		
+		@include desktop() {
+			width: 80%;
+			margin-left: 20%;
+		}
+		
+		.heading, label {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		
+		.heading {
+			margin-top: 15px;
+			cursor: pointer;
+			
+			.icon {
+				transform: rotate(90deg);
+				transition: all .2s;
+				margin-left: 10px;
+				width: 15px;
+				height: 15px;
+			}
+			
+			&.active {
+				.icon {
+					transform: rotate(-90deg);
+				}
+			}
+		}
+		
+		.editor-wrapper {
+			max-height: 0;
+			transition: all .5s;
+			overflow: hidden;
+			
+			&.active {
+				max-height: 1000px;
+			}
+		}
+		
+		.input-field {
+			margin-top: 15px;
+		}
+	}
+	
 	.block {
 		border: 1px solid $grey;
 		border-radius: 5px;
 		margin-bottom: 20px;
 		padding: 20px;
+		
+		.icon {
+			margin-right: 10px;
+		}
 	}
 	
 	.block-title {
-	    font-size: 20px;
+	    font-size: 18px;
+		
+		.btn {
+			font-weight: lighter;
+		}
 	}
 	
-	.input-field,
-	.select-items {
+	.input-field {
 		width: 100%;
 		margin-bottom: 10px;
 	}
 	
 	.select-items {
-		margin-bottom: 10px;
+		width: 100%;
+		margin-bottom: 20px;
 	}
 	
 	.input-field {
 		border-color: $grey;
+	}
+	
+	.date-input {
+		width: 80px;
+		margin-right: 10px;
+	}
+	
+	.credits-input {
+		margin-left: 10px;
+		width: 80px;
+	}
+	
+	.dates-wrapper {
+		float: left;
+		width: 75%;
+	}
+	
+	.grade-wrapper {
+		display: inline-block;
+	}
+	
+	.credits-wrapper {
+		width: 25%;
+		float: right;
+		text-align: right;
+	}
+	
+	.icon.calendar {
+		margin-left: 10px;
+	}
+	
+	.title-input {
+		width: 80%;
+	}
+	
+	.code-input {
+		width: 18%;
+		margin-left: 2%;
 	}
 	
 	.btn {
@@ -32,9 +134,16 @@
 	
 	.btn-cancel {
 		float: left;
+		margin-left: 0;
 	}
 	
-	.item-content {
-		width: 80%;
+	.loader-small {
+		float: right;
+	}
+	
+	.footer-buttons {
+		margin-top: 30px;
+		padding-top: 20px;
+		border-top: 1px solid $grey;
 	}
 }
