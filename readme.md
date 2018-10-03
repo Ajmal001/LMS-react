@@ -14,9 +14,8 @@ You can sign up or use the demo account (read-only): demo@hypatialms.com / demou
 
 - Install Node.js >= 4.5.0 [https://nodejs.org/](https://nodejs.org/)
 
-- Install a Git client. I recommend SourceTree [https://www.sourcetreeapp.com/](https://www.sourcetreeapp.com/)
 
-- Clone this repository into a folder in your computer [https://help.github.com/articles/which-remote-url-should-i-use/](https://help.github.com/articles/which-remote-url-should-i-use/)
+- Clone this repository into a folder in your computer 
 
 - Install the NPM dependencies:
 
